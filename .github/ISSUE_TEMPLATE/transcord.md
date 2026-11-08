@@ -1,6 +1,6 @@
 ---
-name: TransCore issue
-about: Report a problem or suggest an improvement for TransCore
+name: Transcord issue
+about: Report a problem or suggest an improvement for Transcord
 ---
 
 **What happened or what would you like to change?**

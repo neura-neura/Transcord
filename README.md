@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="build/icon.svg" alt="TransCore logo" width="144">
+  <img src="build/icon.svg" alt="Transcord logo" width="144">
 </p>
 
-<h1 align="center">TransCore</h1>
+<h1 align="center">Transcord</h1>
 
 <p align="center">Local voice dictation and optional translation for Discord on Windows.</p>
 
 This is a personal-use project I built for a specific workflow: leave a Discord conversation open, switch to another app, and reply by speaking without switching back. That may be too specific to be useful to most people. If you also dictate replies while doing something else, it might be useful to you.
 
-TransCore combines [Vesktop](https://github.com/Vencord/Vesktop) and its [Vencord](https://github.com/Vendicated/Vencord) plugins with [Hex](https://github.com/anomalyco/hex) for local speech recognition and optional [Ollama](https://github.com/ollama/ollama) translation. I wanted to keep the Discord client and plugins I already used, while managing dictation, translation, models, and the shortcut from one app.
+Transcord combines [Vesktop](https://github.com/Vencord/Vesktop) and its [Vencord](https://github.com/Vendicated/Vencord) plugins with [Hex](https://github.com/anomalyco/hex) for local speech recognition and optional [Ollama](https://github.com/ollama/ollama) translation. I wanted to keep the Discord client and plugins I already used, while managing dictation, translation, models, and the shortcut from one app.
 
 ## Install and try it
 
-1. Download the **Windows x64 installer** from [Releases](https://github.com/neura-neura/TransCore/releases/latest). This build is unsigned and appears as **Transcord** in Windows.
+1. Download the **Windows x64 installer** from [Releases](https://github.com/neura-neura/Transcord/releases/latest). This build is unsigned.
 2. Open the app and sign in to Discord. The first launch downloads Vencord. Hex and the CPU build of Ollama ship with the installer; you don't need their desktop apps.
 3. In **User Settings → Dictation and translation**, choose the source language, recognition model, and pause before sending. Translation is optional. Use **Model library** to check what's available or download a model.
 4. Open the conversation you want and press **Ctrl + Shift + F9**. You can then minimize the app or switch to another window. Press the same shortcut to stop or restart dictation.
@@ -35,7 +35,7 @@ The examples use sample conversations and model data.
 
 ### Startup
 
-<img src="docs/screenshots/startup.png" alt="TransCore startup screen with the green TC logo" width="260">
+<img src="docs/screenshots/startup.png" alt="Transcord startup screen with the green TC logo" width="260">
 
 ### Floating window
 
@@ -65,11 +65,11 @@ The examples use sample conversations and model data.
 On Windows x64, install Git and Node.js 22 or later, then run:
 
 ```powershell
-git clone https://github.com/neura-neura/TransCore.git
-cd TransCore
+git clone https://github.com/neura-neura/Transcord.git
+cd Transcord
 powershell -ExecutionPolicy Bypass -File scripts/build-transcord.ps1
 ```
 
 The script checks the official engine downloads and builds the installer in `dist/transcord`. Model weights and installers are not tracked in Git. See [the implementation notes](TRANSCORD.md) for more detail about storage and the Windows integration.
 
-TransCore retains Vesktop's [GPL-3.0-or-later license](LICENSE). Bundled engine licenses and notices are under [vendor](vendor).
+Transcord retains Vesktop's [GPL-3.0-or-later license](LICENSE). Bundled engine licenses and notices are under [vendor](vendor).
