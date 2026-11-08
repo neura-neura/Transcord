@@ -6,6 +6,8 @@
 
 import type { Rectangle } from "electron";
 
+import type { DictationPreferences } from "./dictation";
+
 export interface Settings {
     discordBranch: "stable" | "canary" | "ptb";
     transparencyOption: "none" | "mica" | "tabbed" | "acrylic";
@@ -58,6 +60,7 @@ export interface Settings {
 }
 
 export interface State {
+    dictation?: DictationPreferences;
     maximized?: boolean;
     minimized?: boolean;
     windowBounds?: Rectangle;

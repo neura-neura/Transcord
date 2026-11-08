@@ -1,0 +1,225 @@
+.transcord-settings {
+    display: grid;
+    gap: 20px;
+    max-width: 720px;
+    color: var(--text-normal, #e4e5e8);
+    font-size: 14px;
+    line-height: 1.45;
+}
+.transcord-settings fieldset {
+    display: grid;
+    gap: 12px;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 12px 16px 16px;
+    border: 1px solid var(--border-subtle, #494a50);
+    border-radius: 8px;
+}
+.transcord-settings legend {
+    padding: 0 6px;
+    font-size: 16px;
+    font-weight: 650;
+}
+.transcord-settings label {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+    font-weight: 550;
+}
+.transcord-settings p {
+    margin: 0;
+    color: var(--text-secondary, var(--text-normal, #d5d6da));
+}
+.transcord-settings select,
+.transcord-settings button {
+    min-height: 38px;
+    max-width: 100%;
+    padding: 6px 10px;
+    border: 1px solid var(--border-subtle, #494a50);
+    border-radius: 6px;
+    color: var(--text-normal, #e4e5e8);
+    background: var(--background-secondary, #303136);
+    font: inherit;
+}
+.transcord-settings select:focus-visible,
+.transcord-settings button:focus-visible {
+    outline: 2px solid var(--focus-primary, #81a9ff);
+    outline-offset: 2px;
+}
+.transcord-settings button {
+    justify-self: start;
+    cursor: pointer;
+}
+.transcord-settings button:disabled {
+    opacity: 0.65;
+    cursor: default;
+}
+.transcord-shortcut-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+    gap: 12px;
+}
+.transcord-settings-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+.transcord-settings .transcord-save {
+    background: #286757;
+    border-color: #73baa6;
+    color: #fff;
+    font-weight: 650;
+}
+
+.transcord-settings input,
+.transcord-settings textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 38px;
+    padding: 8px 10px;
+    border: 1px solid var(--border-subtle, #494a50);
+    border-radius: 6px;
+    background: var(--background-secondary, #303136);
+    color: var(--text-normal, #e4e5e8);
+    font: inherit;
+}
+.transcord-settings input:focus-visible,
+.transcord-settings textarea:focus-visible {
+    outline: 2px solid var(--focus-primary, #81a9ff);
+    outline-offset: 2px;
+}
+.transcord-model-row {
+    display: grid;
+    gap: 6px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-subtle, #494a50);
+    overflow-wrap: anywhere;
+}
+.transcord-model-output {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    padding: 12px;
+    border-inline-start: 3px solid #73baa6;
+}
+
+.transcord-model-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(175px, 100%), 1fr));
+    column-gap: 12px;
+    row-gap: 12px;
+}
+.transcord-model-filters > label {
+    grid-template-columns: minmax(0, 1fr);
+}
+.transcord-model-filters select,
+.transcord-model-filters input {
+    inline-size: 100%;
+    min-inline-size: 0;
+    box-sizing: border-box;
+}
+.transcord-model-group {
+    display: grid;
+    gap: 8px;
+}
+.transcord-model-group h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin: 0;
+    color: var(--text-normal, #e4e5e8);
+    font-size: 15px;
+    font-weight: 650;
+}
+.transcord-model-group h3 span {
+    color: var(--text-secondary, #bfc1c8);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+}
+.transcord-model-group ul {
+    display: grid;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.transcord-model-group .transcord-model-row {
+    padding: 10px 12px;
+    border: 1px solid var(--border-subtle, #494a50);
+    border-radius: 7px;
+}
+.transcord-model-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+}
+.transcord-model-heading strong {
+    flex: 1 1 190px;
+}
+.transcord-model-badge {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #3f4148;
+    color: #f0f1f3;
+    font-size: 12px;
+    font-weight: 650;
+}
+.transcord-model-badge-ready {
+    background: #23493f;
+    color: #b8f2de;
+}
+.transcord-model-badge-detected {
+    background: #493b23;
+    color: #ffdf9a;
+}
+.transcord-settings .transcord-model-warning {
+    border-inline-start: 3px solid #c48e31;
+    padding-inline-start: 10px;
+}
+.transcord-model-languages {
+    overflow-wrap: anywhere;
+}
+
+.transcord-installed-summary ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+}
+.transcord-installed-summary li {
+    border-radius: 5px;
+    padding: 3px 8px;
+    background: #23493f;
+    color: #b8f2de;
+}
+.transcord-model-tools summary {
+    padding: 10px 0;
+    cursor: pointer;
+    font-weight: 600;
+}
+.transcord-model-tools summary:focus-visible {
+    outline: 2px solid var(--focus-primary, #81a9ff);
+    outline-offset: 2px;
+}
+
+.transcord-settings .transcord-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.transcord-settings .transcord-check input {
+    width: 17px;
+    min-height: 17px;
+    accent-color: #62c9a7;
+    flex: none;
+}
+.transcord-model-location {
+    display: block;
+    color: var(--text-secondary, #bfc1c8);
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}

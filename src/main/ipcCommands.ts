@@ -31,7 +31,7 @@ export interface IpcResponse {
  *
  * You must add a handler for the message in the renderer process.
  */
-export function sendRendererCommand<T = any>(message: string, data?: any) {
+export function sendRendererCommand<T = any>(message: string, data?: any, timeout?: number) {
     if (mainWin.isDestroyed()) {
         console.warn("Main window is destroyed, cannot send IPC command:", message);
         return Promise.reject(new Error("Main window is destroyed"));
@@ -40,7 +40,23 @@ export function sendRendererCommand<T = any>(message: string, data?: any) {
     const nonce = randomUUID();
 
     const promise = new Promise<T>((resolve, reject) => {
-        resolvers.set(nonce, { resolve, reject });
+        const timer =
+            timeout === undefined
+                ? undefined
+                : setTimeout(() => {
+                      resolvers.delete(nonce);
+                      reject(new Error("Renderer command timed out"));
+                  }, timeout);
+        resolvers.set(nonce, {
+            resolve(data) {
+                clearTimeout(timer);
+                resolve(data);
+            },
+            reject(data) {
+                clearTimeout(timer);
+                reject(data);
+            }
+        });
     });
 
     mainWin.webContents.send(IpcEvents.IPC_COMMAND, { nonce, message, data });
@@ -48,9 +64,10 @@ export function sendRendererCommand<T = any>(message: string, data?: any) {
     return promise;
 }
 
-ipcMain.on(IpcEvents.IPC_COMMAND, (_event, { nonce, ok, data }: IpcResponse) => {
+ipcMain.on(IpcEvents.IPC_COMMAND, (event, { nonce, ok, data }: IpcResponse) => {
+    if (event.sender !== mainWin?.webContents || event.senderFrame !== event.sender.mainFrame) return;
     const resolver = resolvers.get(nonce);
-    if (!resolver) throw new Error(`Unknown message: ${nonce}`);
+    if (!resolver) return;
 
     if (ok) {
         resolver.resolve(data);

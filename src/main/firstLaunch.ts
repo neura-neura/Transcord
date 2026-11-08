@@ -32,7 +32,7 @@ export function createFirstLaunchTour() {
         transparent: false,
         frame: true,
         autoHideMenuBar: true,
-        height: 550,
+        height: 600,
         width: 600
     });
 

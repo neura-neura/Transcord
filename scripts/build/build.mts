@@ -105,6 +105,11 @@ await Promise.all([
     }),
     createContext({
         ...NodeCommonOpts,
+        entryPoints: ["src/preload/dictationHud.ts"],
+        outfile: "dist/js/dictationHudPreload.js"
+    }),
+    createContext({
+        ...NodeCommonOpts,
         entryPoints: ["src/preload/splash.ts"],
         outfile: "dist/js/splashPreload.js",
         footer: { js: "//# sourceURL=VesktopSplashPreload" }

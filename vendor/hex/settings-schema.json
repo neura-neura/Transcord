@@ -1,0 +1,856 @@
+[
+    {
+        "key": "keyboard_model_switching.enabled",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: switch the model when the keyboard input source changes (macOS, Windows, X11)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "keyboard_model_switching.mappings",
+        "kind": "json",
+        "writable": true,
+        "about": "Input-source IDs mapped to a model and language; absent sources don't switch (macOS, Windows, X11)",
+        "available": true,
+        "value": {}
+    },
+    {
+        "key": "release_microphone_while_idle",
+        "kind": "bool",
+        "writable": true,
+        "about": "Release the microphone between dictations",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "sound_effects",
+        "kind": "bool",
+        "writable": true,
+        "about": "Play recording and error tones",
+        "available": true,
+        "value": true
+    },
+    {
+        "key": "sound_effect_volume",
+        "kind": "number",
+        "writable": true,
+        "about": "Tone volume from 0 to 1; 0 turns tones off",
+        "available": true,
+        "value": 0.5
+    },
+    {
+        "key": "sound_theme",
+        "kind": "choice",
+        "choices": [
+            "signature",
+            "classic",
+            "click",
+            "soft",
+            "wood",
+            "analog",
+            "thock"
+        ],
+        "writable": true,
+        "about": "Which sounds play; classic, Hex's original tones, is the default",
+        "available": true,
+        "value": "classic"
+    },
+    {
+        "key": "microphone",
+        "kind": "text",
+        "writable": true,
+        "about": "Microphone by name; system-default (or none) follows the system's default input",
+        "available": true,
+        "value": null
+    },
+    {
+        "key": "avoid_bluetooth_microphone",
+        "kind": "bool",
+        "writable": true,
+        "about": "System default records from the built-in or another wired microphone, not a Bluetooth headset's",
+        "available": true,
+        "value": true
+    },
+    {
+        "key": "recording_audio_behavior",
+        "kind": "choice",
+        "choices": [
+            "mute",
+            "pause_media",
+            "do_nothing",
+            "duck"
+        ],
+        "writable": true,
+        "about": "What other audio does while you dictate",
+        "available": true,
+        "value": "do_nothing"
+    },
+    {
+        "key": "recording_duck_volume",
+        "kind": "number",
+        "writable": true,
+        "about": "Fraction of original output volume while lowering audio, from 0 to 1",
+        "available": true,
+        "value": 0.2
+    },
+    {
+        "key": "pause_browser_media",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: also pause a playing browser tab while dictating (macOS, with Pause media)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "double_tap_lock",
+        "kind": "bool",
+        "writable": true,
+        "about": "Double-tap the dictation shortcut to keep recording hands-free",
+        "available": true,
+        "value": true
+    },
+    {
+        "key": "double_tap_only",
+        "kind": "bool",
+        "writable": true,
+        "about": "Only a double tap starts dictation (needs double_tap_lock and a key chord)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "shortcut_mode",
+        "kind": "choice",
+        "choices": [
+            "hold",
+            "toggle"
+        ],
+        "writable": true,
+        "about": "Hold the shortcut while speaking, or press once to start and again to finish",
+        "available": true,
+        "value": "hold"
+    },
+    {
+        "key": "dictation_hotkey",
+        "kind": "shortcut",
+        "writable": true,
+        "about": "The dictation shortcut",
+        "available": true,
+        "value": {
+            "keys": [
+                {
+                    "modifier": "control",
+                    "side": "any"
+                },
+                {
+                    "code": 0,
+                    "label": "Space"
+                }
+            ]
+        }
+    },
+    {
+        "key": "paste_last_hotkey",
+        "kind": "shortcut",
+        "writable": true,
+        "about": "The paste-last-dictation shortcut; none turns it off",
+        "available": true,
+        "value": {
+            "keys": [
+                {
+                    "modifier": "control",
+                    "side": "any"
+                },
+                {
+                    "modifier": "option",
+                    "side": "any"
+                },
+                {
+                    "code": 0,
+                    "label": "V"
+                }
+            ]
+        }
+    },
+    {
+        "key": "raw_dictation_hotkey",
+        "kind": "shortcut",
+        "writable": true,
+        "about": "Dictate without processing: dictates and pastes the words as heard, skipping the Output steps; none (the default) turns it off",
+        "available": true,
+        "value": null
+    },
+    {
+        "key": "second_dictation_hotkey",
+        "kind": "shortcut",
+        "writable": true,
+        "about": "Labs: another shortcut that dictates like dictation_hotkey, such as a key on an external keyboard (macOS, with labs.second_dictation_shortcut); none (the default) turns it off",
+        "available": true,
+        "value": null
+    },
+    {
+        "key": "show_dock_icon",
+        "kind": "bool",
+        "writable": true,
+        "about": "Keep Hex in the Dock when Settings is closed (macOS)",
+        "available": false,
+        "value": true
+    },
+    {
+        "key": "transcription.model",
+        "kind": "text",
+        "writable": false,
+        "about": "The dictation model",
+        "available": true,
+        "value": "parakeet_unified_en"
+    },
+    {
+        "key": "transcription.language",
+        "kind": "text",
+        "writable": false,
+        "about": "The dictation language",
+        "available": true,
+        "value": "en"
+    },
+    {
+        "key": "transcription_recents",
+        "kind": "json",
+        "writable": false,
+        "about": "Recently used models, each with its language",
+        "available": true,
+        "value": []
+    },
+    {
+        "key": "vocabulary_boost",
+        "kind": "choice",
+        "choices": [
+            "off",
+            "light",
+            "normal",
+            "strong"
+        ],
+        "writable": true,
+        "about": "How readily transcription swaps heard words for a vocabulary term",
+        "available": true,
+        "value": "normal"
+    },
+    {
+        "key": "dictation_processing.default_mode",
+        "kind": "json",
+        "writable": true,
+        "about": "The Global mode: replacements, transformations, and rewriting",
+        "available": true,
+        "value": {
+            "name": "Global",
+            "applications": [],
+            "browser_hosts": [],
+            "replacements": [],
+            "transformations": [],
+            "post_processing": {
+                "enabled": false,
+                "prompt": "Rewrite the transcript into clear, natural text while preserving the speaker's intended meaning.",
+                "model": null,
+                "variant": null,
+                "deadline_seconds": 30
+            }
+        }
+    },
+    {
+        "key": "dictation_processing.modes",
+        "kind": "json",
+        "writable": true,
+        "about": "Modes for specific apps and websites, as a JSON array",
+        "available": true,
+        "value": []
+    },
+    {
+        "key": "history_retention",
+        "kind": "choice",
+        "choices": [
+            "off",
+            "day",
+            "week",
+            "month",
+            "forever"
+        ],
+        "writable": true,
+        "about": "How long dictation history is kept",
+        "available": true,
+        "value": "week"
+    },
+    {
+        "key": "labs.live_text",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: provisional words beside the HUD while dictating",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.live_chapters",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: chapter meeting transcripts while recording",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.playground",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: the scene and story browser in the window",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.vocabulary_biasing",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: bias Parakeet transcription toward the vocabulary",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.mouse_shortcuts",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: record mouse buttons as shortcuts (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.unload_idle",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: unload the speech model when idle, freeing its memory",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.unload_idle_minutes",
+        "kind": "choice",
+        "choices": [
+            "5",
+            "15",
+            "30",
+            "60"
+        ],
+        "writable": true,
+        "about": "Minutes unused before Labs › Unload model when idle unloads the model",
+        "available": true,
+        "value": 15
+    },
+    {
+        "key": "labs.restore_shortcut_default",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: offer Restore default beside the Paste last dictation shortcut",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.keep_on_clipboard",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: leave the dictation on the clipboard after pasting instead of restoring what was there (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.copy_only",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: put the dictation on the clipboard instead of pasting it (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.spoken_formatting",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: turn spoken \"new line\", \"new paragraph\", and \"open/close quote\" into line breaks and quotation marks",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.spoken_symbols",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: turn spoken \"comma\", \"colon\", \"hashtag\", \"underscore\", and similar words into symbols joined to their words",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.filler_words",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: remove filler words such as um and uh from dictations, without an AI model",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.subtitle_export",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: export meeting transcripts as SRT or VTT subtitles with hex meetings show --srt|--vtt",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.second_dictation_shortcut",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: second_dictation_hotkey dictates like the dictation shortcut (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.smart_spacing",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: add a space before a dictation pasted right after a word (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.picker_sort_filter",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: sort the Local transcription picker by recommendation, size, or name, and show only models for the saved language",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.sided_modifier_chords",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: the shortcut recorder keeps which side each modifier of a modifier-only chord is on, such as Right Command + Right Option (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.tap_or_hold",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: in Toggle mode, a press held past the hold threshold dictates until it lifts; a short tap still starts and stops (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.benchmark_details",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: the Local transcription picker shows each model's raw error rate (WER or CER), benchmark, source, and conditions",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.parakeet_ultra",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: Parakeet Ultra, Moondream's post-trained Parakeet v3, in the Local transcription picker; stays on while it is the dictation model",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.standalone_special_keys",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: shortcuts may use Menu, Pause, or Scroll Lock, alone or with modifiers (Linux); off puts such a shortcut back to its default",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.history_stats",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: a summary of retained dictations at the top of History, and hex history stats",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.recent_dictations",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: a Copy Recent Dictation submenu in the menu bar that copies one of the last five dictations (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.skip_pauses",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: a dictation transcribed as a whole clip hears only the start and end of each long pause, so slow computers paste sooner (Linux and Windows)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.stop_when_call_ends",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: a meeting recording Hex started on its own stops 30 s after its call app leaves the microphone and goes quiet, unless you keep recording (macOS)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "labs.output_fixes",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: Output's Try card offers Vocabulary and Fix this, which copies an agent prompt naming the wrong result",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "meetings.enabled",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: Meetings (beta), call detection, recording, and transcripts",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "meetings.output_folder",
+        "kind": "path",
+        "writable": true,
+        "about": "Folder for meeting Markdown; none uses ~/Documents/Hex Meetings",
+        "available": true,
+        "value": null
+    },
+    {
+        "key": "meetings.summarize_with_apple_intelligence",
+        "kind": "bool",
+        "writable": true,
+        "about": "Title and summarize meetings with Apple Intelligence",
+        "available": true,
+        "value": true
+    },
+    {
+        "key": "meetings.summarize_with_opencode",
+        "kind": "bool",
+        "writable": true,
+        "about": "Title and summarize meetings with the OpenCode model (sends the transcript to it)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "meetings.show_recording_indicator",
+        "kind": "bool",
+        "writable": true,
+        "about": "Show the floating recording indicator during meetings",
+        "available": true,
+        "value": true
+    },
+    {
+        "key": "meetings.recording_indicator_corner",
+        "kind": "choice",
+        "choices": [
+            "top_right",
+            "top_left",
+            "bottom_right",
+            "bottom_left"
+        ],
+        "writable": true,
+        "about": "Screen corner of the meeting recording indicator",
+        "available": true,
+        "value": "top_right"
+    },
+    {
+        "key": "meetings.retention",
+        "kind": "choice",
+        "choices": [
+            "day",
+            "week",
+            "month",
+            "forever"
+        ],
+        "writable": true,
+        "about": "How long finished meetings are kept before they move to the Trash; none keeps new meetings 24 hours and older ones until you choose",
+        "available": true,
+        "value": null
+    },
+    {
+        "key": "meetings.providers",
+        "kind": "json",
+        "writable": true,
+        "about": "Per-app call choices, as a JSON array of {key, label, policy: ask|always_record|never_offer}",
+        "available": true,
+        "value": []
+    },
+    {
+        "key": "meetings.calendar.connected",
+        "kind": "bool",
+        "writable": false,
+        "about": "A calendar is connected for meeting reminders",
+        "available": false,
+        "value": false
+    },
+    {
+        "key": "meetings.calendar.excluded_calendars",
+        "kind": "json",
+        "writable": true,
+        "about": "Calendars left out of reminders, as a JSON array of EventKit identifiers",
+        "available": false,
+        "value": []
+    },
+    {
+        "key": "meetings.calendar.remind",
+        "kind": "bool",
+        "writable": true,
+        "about": "Remind before calendar meetings",
+        "available": false,
+        "value": true
+    },
+    {
+        "key": "meetings.calendar.lead_minutes",
+        "kind": "choice",
+        "choices": [
+            "0",
+            "1",
+            "2",
+            "5"
+        ],
+        "writable": true,
+        "about": "Minutes before a meeting its reminder shows",
+        "available": false,
+        "value": 1
+    },
+    {
+        "key": "experimental.hex_microphone",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: the Voice Filter and its Hex Microphone virtual input",
+        "available": false,
+        "value": false
+    },
+    {
+        "key": "experimental.hex_microphone_mode",
+        "kind": "choice",
+        "choices": [
+            "normal",
+            "muffled",
+            "quiet",
+            "muted",
+            "chipmunk",
+            "robot",
+            "walkie",
+            "underwater",
+            "far"
+        ],
+        "writable": true,
+        "about": "What Hex Microphone does to your voice while you dictate",
+        "available": false,
+        "value": "muffled"
+    },
+    {
+        "key": "experimental.hex_microphone_comfort_noise",
+        "kind": "bool",
+        "writable": true,
+        "about": "Hex Microphone fills silence with soft noise",
+        "available": false,
+        "value": true
+    },
+    {
+        "key": "experimental.hex_microphone_strength",
+        "kind": "number",
+        "writable": true,
+        "about": "How strongly Hex Microphone applies its filter, from 0 to 1",
+        "available": false,
+        "value": 1
+    },
+    {
+        "key": "enable_on_launch",
+        "kind": "bool",
+        "writable": true,
+        "about": "Start listening when Hex opens (Windows and Linux)",
+        "available": true,
+        "value": true
+    },
+    {
+        "key": "paste_with_shift",
+        "kind": "bool",
+        "writable": true,
+        "about": "Paste with Ctrl-Shift-V for terminals (Linux and Windows)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "gnome_keyboard_shortcuts",
+        "kind": "bool",
+        "writable": true,
+        "about": "Hex's own GNOME custom keyboard shortcuts, for GNOME without a shortcuts portal (Linux)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "share_dictation_shortcut",
+        "kind": "bool",
+        "writable": true,
+        "about": "Labs: let other apps see the dictation shortcut too (Windows)",
+        "available": true,
+        "value": false
+    },
+    {
+        "key": "ui_language",
+        "kind": "choice",
+        "choices": [
+            "en",
+            "pl",
+            "zh",
+            "zh-Hant",
+            "ja",
+            "de",
+            "es",
+            "uk",
+            "pt",
+            "fr"
+        ],
+        "writable": true,
+        "about": "Interface language; none follows the system",
+        "available": true,
+        "value": null
+    },
+    {
+        "key": "transcription_device",
+        "kind": "choice",
+        "choices": [
+            "auto",
+            "gpu",
+            "cpu"
+        ],
+        "writable": true,
+        "about": "Where the speech model runs: auto (a GPU unless it failed before), gpu, or cpu (Linux and Windows)",
+        "available": true,
+        "value": "auto"
+    },
+    {
+        "key": "indicator_position",
+        "kind": "choice",
+        "choices": [
+            "top",
+            "bottom",
+            "hidden"
+        ],
+        "writable": true,
+        "about": "Where the dictation HUD appears",
+        "available": true,
+        "value": "top"
+    },
+    {
+        "key": "updates.channel",
+        "kind": "choice",
+        "choices": [
+            "stable",
+            "dev"
+        ],
+        "writable": true,
+        "about": "Update channel; none follows the build (dev builds use dev, others stable)",
+        "available": true,
+        "value": null
+    },
+    {
+        "key": "capture.enabled",
+        "kind": "bool",
+        "writable": true,
+        "about": "Annotate: record the screen while you draw and talk (on by default)",
+        "available": true,
+        "value": true
+    },
+    {
+        "key": "capture.hotkey",
+        "kind": "shortcut",
+        "writable": true,
+        "about": "The Annotate shortcut: press to start recording and again to finish",
+        "available": true,
+        "value": {
+            "keys": [
+                {
+                    "code": 0,
+                    "label": "F9"
+                }
+            ]
+        }
+    },
+    {
+        "key": "capture.transcriber",
+        "kind": "choice",
+        "choices": [
+            "parakeet",
+            "apple"
+        ],
+        "writable": true,
+        "about": "What transcribes a capture's narration: Hex's loaded model or Apple's",
+        "available": true,
+        "value": "parakeet"
+    },
+    {
+        "key": "capture.folder",
+        "kind": "path",
+        "writable": true,
+        "about": "Folder for new captures; none uses Scrawl's captures folder",
+        "available": true,
+        "value": null
+    },
+    {
+        "key": "capture.media_days",
+        "kind": "integer",
+        "writable": true,
+        "about": "Days a capture keeps its video and audio; none keeps them",
+        "available": true,
+        "value": 7
+    },
+    {
+        "key": "capture.bundle_days",
+        "kind": "integer",
+        "writable": true,
+        "about": "Days a capture is kept; none keeps it",
+        "available": true,
+        "value": 30
+    },
+    {
+        "key": "capture.capsule_flow",
+        "kind": "choice",
+        "choices": [
+            "list",
+            "toast",
+            "menu_bar",
+            "cursor",
+            "notch"
+        ],
+        "writable": true,
+        "about": "How the capture capsule offers where to send a capture (prototypes): a list, a one-line toast, the menu bar, a card at the pointer, or a notch",
+        "available": true,
+        "value": "list"
+    },
+    {
+        "key": "capture.routing",
+        "kind": "json",
+        "writable": true,
+        "about": "Where captures go among OpenCode sessions: Scrawl's router settings (autoSend, sites, apps, smartRouting, …) as a JSON object",
+        "available": true,
+        "value": {
+            "autoSend": "rules",
+            "undoWindowSec": null,
+            "sites": {},
+            "apps": {},
+            "servers": {},
+            "aliases": {},
+            "refusedRules": [],
+            "delivery": "steer",
+            "smartRouting": false,
+            "jevRouting": false,
+            "jev": null,
+            "jevApiKey": null,
+            "agentHost": null,
+            "agentOpencode": null,
+            "sendCaptures": true
+        }
+    },
+    {
+        "key": "capture.show_overlays_in_recordings",
+        "kind": "bool",
+        "writable": true,
+        "about": "Let screen recordings, captures included, show Hex's capsules, ink, and HUD (for demos)",
+        "available": true,
+        "value": false
+    }
+]

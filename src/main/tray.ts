@@ -5,10 +5,18 @@
  */
 
 import { app, BrowserWindow, Menu, Tray } from "electron";
+import { DictationLanguage, LANGUAGES, PAUSES } from "shared/dictation";
 import { sleep } from "shared/utils/sleep";
 
 import { createAboutWindow } from "./about";
 import { isStatusNotifierHostRegistered } from "./dbus";
+import {
+    dictationTrayState,
+    observeDictation,
+    setDictationLanguage,
+    setDictationPause,
+    toggleDictation
+} from "./dictation";
 import { AppEvents } from "./events";
 import { Settings } from "./settings";
 import { resolveAssetPath } from "./userAssets";
@@ -18,6 +26,7 @@ import { showWindow } from "./utils/showWindow";
 import { downloadVencordFiles } from "./utils/vencordLoader";
 
 let tray: Tray | undefined;
+let unobserveDictation: (() => void) | undefined;
 let trayVariant: "tray" | "trayUnread" = "tray";
 
 // resolve the image before checking tray, as it might get destroyed in the meantime
@@ -37,6 +46,8 @@ AppEvents.on("setTrayVariant", async variant => {
 });
 
 export function destroyTray() {
+    unobserveDictation?.();
+    unobserveDictation = undefined;
     tray?.destroy();
     tray = undefined;
 }
@@ -65,51 +76,119 @@ export async function initTray(win: BrowserWindow, setIsQuitting: (val: boolean)
         else showWindow(win);
     };
 
-    const trayMenu = Menu.buildFromTemplate([
-        {
-            label: "Open",
-            click() {
-                showWindow(win);
-            }
-        },
-        {
-            label: "About",
-            click: createAboutWindow
-        },
-        {
-            label: "Repair Vencord",
-            async click() {
-                await downloadVencordFiles();
-                relaunch();
-            }
-        },
-        {
-            label: "Reset Vesktop",
-            async click() {
-                await clearData(win);
-            }
-        },
-        {
-            type: "separator"
-        },
-        {
-            label: "Restart",
-            click: relaunch
-        },
-        {
-            label: "Quit",
-            click() {
-                setIsQuitting(true);
-                app.quit();
-            }
-        }
-    ]);
+    const refreshMenu = () => {
+        if (!tray) return;
+        const { phase, target, detail, shortcut, pause, source, translationTarget } = dictationTrayState();
+        const languageMenu = (field: "source" | "translationTarget") =>
+            (Object.keys(LANGUAGES) as DictationLanguage[]).map(code => ({
+                label: LANGUAGES[code].label,
+                type: "radio" as const,
+                checked: (field === "source" ? source : translationTarget) === code,
+                enabled: field === "source" || code !== source,
+                click: () => {
+                    setDictationLanguage(field, code);
+                    refreshMenu();
+                }
+            }));
+        const active = phase !== "idle" && phase !== "error";
+        const action = active ? "Detener dictado" : "Activar dictado en este chat";
+        const phaseLabel = {
+            idle: "Micrófono apagado",
+            starting: "Preparando Hex",
+            listening: "Escuchando",
+            speech: "Dictando",
+            transcribing: "Transcribiendo",
+            error: "Dictado detenido"
+        }[phase];
+        tray.setToolTip(["Transcord", phaseLabel, target].filter(Boolean).join(" · ").slice(0, 127));
+        tray.setContextMenu(
+            Menu.buildFromTemplate([
+                ...(process.platform === "win32"
+                    ? [
+                          { label: action + (shortcut ? " · " + shortcut : ""), click: toggleDictation },
+                          {
+                              label: (detail ?? [phaseLabel, target].filter(Boolean).join(" · ")).slice(0, 110),
+                              enabled: false
+                          },
+                          {
+                              label: "Pausa antes de enviar",
+                              enabled: !active,
+                              submenu: PAUSES.map(value => ({
+                                  label: (value / 1000).toLocaleString("es-MX") + " s",
+                                  type: "radio" as const,
+                                  checked: value === pause,
+                                  click: () => {
+                                      setDictationPause(value);
+                                      refreshMenu();
+                                  }
+                              }))
+                          },
+                          { label: "Idioma del dictado", enabled: !active, submenu: languageMenu("source") },
+                          {
+                              label: "Traducir con Ollama",
+                              enabled: !active,
+                              submenu: [
+                                  {
+                                      label: "Desactivado",
+                                      type: "radio" as const,
+                                      checked: !translationTarget,
+                                      click: () => {
+                                          setDictationLanguage("translationTarget");
+                                          refreshMenu();
+                                      }
+                                  },
+                                  ...languageMenu("translationTarget")
+                              ]
+                          },
+                          { type: "separator" as const }
+                      ]
+                    : []),
+                {
+                    label: "Open",
+                    click() {
+                        showWindow(win);
+                    }
+                },
+                {
+                    label: "About",
+                    click: createAboutWindow
+                },
+                {
+                    label: "Repair Vencord",
+                    async click() {
+                        await downloadVencordFiles();
+                        relaunch();
+                    }
+                },
+                {
+                    label: "Reset Vesktop",
+                    async click() {
+                        await clearData(win);
+                    }
+                },
+                {
+                    type: "separator"
+                },
+                {
+                    label: "Restart",
+                    click: relaunch
+                },
+                {
+                    label: "Quit",
+                    click() {
+                        setIsQuitting(true);
+                        app.quit();
+                    }
+                }
+            ])
+        );
+    };
 
     await waitForStatusNotifierHost();
     if (Settings.store.tray === false) return;
 
     tray = new Tray(await resolveAssetPath(trayVariant));
-    tray.setToolTip("Vesktop");
-    tray.setContextMenu(trayMenu);
+    unobserveDictation = observeDictation(refreshMenu);
+    refreshMenu();
     tray.on("click", onTrayClick);
 }

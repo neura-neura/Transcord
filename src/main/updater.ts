@@ -37,13 +37,10 @@ autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = false;
 autoUpdater.fullChangelog = true;
 
-const isOutdated = autoUpdater.checkForUpdates().then(res => Boolean(res?.isUpdateAvailable));
+const isOutdated = Promise.resolve(false);
 
 handle(IpcEvents.UPDATER_IS_OUTDATED, () => isOutdated);
-handle(IpcEvents.UPDATER_OPEN, async () => {
-    const res = await autoUpdater.checkForUpdates();
-    if (res?.isUpdateAvailable && res.updateInfo) openUpdater(res.updateInfo);
-});
+handle(IpcEvents.UPDATER_OPEN, () => {});
 
 function openUpdater(update: UpdateInfo) {
     if (updaterWindow) {

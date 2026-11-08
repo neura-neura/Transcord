@@ -6,7 +6,10 @@
 
 import { BrowserWindow } from "electron";
 
+import { showDictationMainWindow } from "../dictationHud";
+
 export function showWindow(win: BrowserWindow) {
     if (win.isMinimized()) win.restore();
+    showDictationMainWindow(win);
     win.show();
 }

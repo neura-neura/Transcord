@@ -1,0 +1,202 @@
+:root {
+    color-scheme: dark;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    color: #f0f1f7;
+    font-size: 14px;
+}
+* {
+    box-sizing: border-box;
+}
+[hidden] {
+    display: none !important;
+}
+body {
+    --accent: #98a5ff;
+    height: 100vh;
+    margin: 0;
+    background: transparent;
+}
+body[data-phase="listening"],
+body[data-phase="sent"] {
+    --accent: #69dfae;
+}
+body[data-phase="speech"] {
+    --accent: #88dbff;
+}
+body[data-phase="translating"] {
+    --accent: #c1abff;
+}
+body[data-phase="transcribing"],
+body[data-phase="sending"] {
+    --accent: #f7d290;
+}
+body[data-phase="error"],
+body[data-phase="over-limit"] {
+    --accent: #ff9a9d;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 7px;
+    height: 100%;
+    padding: 9px;
+}
+.console,
+.conversation {
+    background: #24252e;
+    border: 1px solid #444656;
+    border-radius: 16px;
+    box-shadow: 0 7px 15px #08091095;
+    min-width: 0;
+}
+.console {
+    padding: 10px;
+}
+header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.orb,
+.identity {
+    -webkit-app-region: drag;
+    user-select: none;
+}
+.identity {
+    flex: 1;
+    min-width: 0;
+}
+.identity small,
+.identity strong {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.identity small {
+    color: #f0f1f7;
+    font-size: 13px;
+    font-weight: 600;
+}
+.identity strong {
+    color: var(--accent);
+    font-size: 14px;
+    margin-top: 2px;
+}
+.orb {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: 0 0 40px;
+    height: 40px;
+    color: var(--accent);
+    border: 1px solid color-mix(in srgb, var(--accent) 65%, #313342);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--accent) 19%, #292b3a);
+}
+.orb svg {
+    width: 21px;
+    height: 21px;
+}
+.orb::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border: 1px solid var(--accent);
+    border-radius: inherit;
+    opacity: 0;
+}
+body:is([data-phase="speech"], [data-phase="translating"], [data-phase="transcribing"]) .orb::after {
+    animation: pulse 1.6s ease-out infinite;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1.15);
+        opacity: 0;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .orb::after {
+        animation: none !important;
+    }
+}
+button {
+    -webkit-app-region: no-drag;
+    border: 1px solid #525468;
+    border-radius: 8px;
+    background: #323442;
+    color: #f3f3fa;
+    padding: 6px 8px;
+    min-height: 32px;
+    cursor: pointer;
+    max-width: 104px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+button:hover {
+    background: #42445a;
+}
+.transcript {
+    position: relative;
+    height: 83px;
+    overflow: hidden;
+    background: #191a22;
+    border-radius: 9px;
+    padding: 6px 9px;
+    margin: 8px 0 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    line-height: 1.3;
+}
+.conversation {
+    padding: 7px 10px;
+    border-radius: 12px;
+}
+.conversation-header {
+    display: flex;
+    gap: 7px;
+    font-size: 11px;
+    color: #bac1fb;
+}
+.conversation-header b {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.conversation p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    margin: 4px 0 0;
+    line-height: 1.25;
+}
+
+.transcord-live-measure {
+    position: absolute !important;
+    visibility: hidden;
+    pointer-events: none;
+    margin: 0 !important;
+    inset: 0 auto auto 0;
+}
+.message-budget {
+    min-height: 14px;
+    margin: 6px 1px 0;
+    text-align: end;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: #f7d290;
+}
+.message-budget[data-over="true"] {
+    color: #ff9a9d;
+}

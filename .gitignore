@@ -4,3 +4,7 @@ node_modules
 .DS_Store
 .idea/
 .pnpm-store/
+/vendor/hex/hex.exe
+/vendor/hex/hex.exe.download
+/vendor/ollama/ollama.exe
+/vendor/ollama/lib/

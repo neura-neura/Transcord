@@ -49,6 +49,22 @@
             object-fit: contain;
         }
 
+        @media (prefers-reduced-motion: no-preference) {
+            img {
+                animation: logo-pulse 1.65s ease-in-out infinite;
+            }
+        }
+
+        @keyframes logo-pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.055);
+            }
+        }
+
         .pixelated img {
             image-rendering: pixelated;
         }
@@ -58,7 +74,7 @@
 <body>
     <div class="wrapper">
         <img draggable="false" src="vesktop://assets/splash" alt="" role="presentation" />
-        <p>Loading Vesktop...</p>
+        <p>Loading Transcord...</p>
         <p class="message"></p>
     </div>
 </body>

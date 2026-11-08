@@ -1,64 +1,75 @@
-# Vesktop
+<p align="center">
+  <img src="build/icon.svg" alt="TransCore logo" width="144">
+</p>
 
-Vesktop is a custom Discord desktop app
+<h1 align="center">TransCore</h1>
 
-**Main features**:
+<p align="center">Local voice dictation and optional translation for Discord on Windows.</p>
 
-- Vencord preinstalled
-- Much more lightweight and faster than the official Discord app
-- Linux Screenshare with sound & wayland
-- Much better privacy, since Discord has no access to your system
+This is a personal-use project I built for a specific workflow: leave a Discord conversation open, switch to another app, and reply by speaking without switching back. That may be too specific to be useful to most people. If you also dictate replies while doing something else, it might be useful to you.
 
-**Not yet supported**:
+TransCore combines [Vesktop](https://github.com/Vencord/Vesktop) and its [Vencord](https://github.com/Vendicated/Vencord) plugins with [Hex](https://github.com/anomalyco/hex) for local speech recognition and optional [Ollama](https://github.com/ollama/ollama) translation. I wanted to keep the Discord client and plugins I already used, while managing dictation, translation, models, and the shortcut from one app.
 
-- Global Keybinds
-- see the [Roadmap](https://github.com/Vencord/Vesktop/issues/324)
+## Install and try it
 
-![](https://github.com/Vencord/Vesktop/assets/45497981/8608a899-96a9-4027-9725-2cb02ba189fd)
-![](https://github.com/Vencord/Vesktop/assets/45497981/8701e5de-52c4-4346-a990-719cb971642e)
+1. Download the **Windows x64 installer** from [Releases](https://github.com/neura-neura/TransCore/releases/latest). This build is unsigned and appears as **Transcord** in Windows.
+2. Open the app and sign in to Discord. The first launch downloads Vencord. Hex and the CPU build of Ollama ship with the installer; you don't need their desktop apps.
+3. In **User Settings → Dictation and translation**, choose the source language, recognition model, and pause before sending. Translation is optional. Use **Model library** to check what's available or download a model.
+4. Open the conversation you want and press **Ctrl + Shift + F9**. You can then minimize the app or switch to another window. Press the same shortcut to stop or restart dictation.
 
-## Installing
+The shortcut only starts in an open conversation you can write in. If there isn't one, the microphone stays off. Changing chats or stopping dictation discards the pending phrase. Long speech is processed in pieces, but the app waits for the full configured silence before translating or sending.
 
-Visit https://vesktop.dev/install
+## What you can configure
 
-## Building from Source
+- **Dictation and sending:** Pick a supported language, including Mandarin Chinese, and a compatible Hex model. Change the global shortcut and silence interval. A completed phrase is sent automatically to the pinned chat.
+- **Local translation:** Choose a target language and an Ollama model. The floating window previews the translation as it arrives. Speech recognition and translation run on your machine; sent messages still go through Discord.
+- **Floating window:** See who will receive the message, whether the app is listening, translating, or sending, and an optional preview of messages from that chat. New words fade in, filled blocks clear in place, and the mouse wheel lets you reread earlier blocks. A character counter appears near Discord's limit. Oversized messages are held instead of sent or split.
+- **Model library:** Filter Hex models by supported language and download status. Download, test, or delete models managed by the app. Existing models detected from Hex or Ollama can be used in place. Test an Ollama translation from the library without sending anything to Discord.
+- **Advanced Hex settings:** Browse and edit the settings exposed by Hex on Windows. Settings that apply to the standalone Hex client don't change the Discord workflow. The app keeps its own profile separate from Vesktop, Hex, and Ollama.
 
-You need to have the following dependencies installed:
+Discord [prohibits automating ordinary user accounts outside its bot API](https://support.discord.com/hc/en-us/articles/115002192352-Automated-User-Accounts-Self-Bots). This project sends dictated messages using the signed-in Discord client.
 
-- [Git](https://git-scm.com/downloads)
-- [Node.js](https://nodejs.org/en/download)
-- pnpm: `npm install --global pnpm`
+## Screenshots
 
-Packaging will create builds in the dist/ folder
+The examples use sample conversations and model data.
 
-```sh
-git clone https://github.com/Vencord/Vesktop
-cd Vesktop
+### Startup
 
-# Install Dependencies
-pnpm i
+<img src="docs/screenshots/startup.png" alt="TransCore startup screen with the green TC logo" width="260">
 
-# Either run it without packaging
-pnpm start
+### Floating window
 
-# Or package (will build packages for your OS)
-pnpm package
+<p>
+  <img src="docs/screenshots/floating-listening.png" alt="Floating dictation window showing the pinned recipient, listening state, and provisional transcript" width="350">
+  <img src="docs/screenshots/floating-translating.png" alt="Floating dictation window showing live Mandarin translation, incoming message, and remaining character count" width="350">
+</p>
 
-# Or only build the Linux Pacman package
-pnpm package --linux pacman
+### Dictation and translation
 
-# Or package to a directory only
-pnpm package:dir
+![Dictation and local translation settings, with compatible model selection](docs/screenshots/dictation-settings.png)
+
+![Silence interval, global shortcut, floating window and animation settings](docs/screenshots/shortcut-and-overlay.png)
+
+### Model library
+
+![Hex model library showing installed, detected and downloadable models](docs/screenshots/hex-library.png)
+
+![Ollama model library with model downloads and a local translation test](docs/screenshots/ollama-library.png)
+
+### Advanced Hex settings
+
+![Searchable Hex settings and a selected editable setting](docs/screenshots/advanced-hex.png)
+
+## Build from source
+
+On Windows x64, install Git and Node.js 22 or later, then run:
+
+```powershell
+git clone https://github.com/neura-neura/TransCore.git
+cd TransCore
+powershell -ExecutionPolicy Bypass -File scripts/build-transcord.ps1
 ```
 
-## Building LibVesktop from Source
+The script checks the official engine downloads and builds the installer in `dist/transcord`. Model weights and installers are not tracked in Git. See [the implementation notes](TRANSCORD.md) for more detail about storage and the Windows integration.
 
-This is a small C++ helper library Vesktop uses on Linux to emit D-Bus events. By default, prebuilt binaries for x64 and arm64 are used.
-
-If you want to build it from source:
-
-1. Install build dependencies:
-    - Debian/Ubuntu: `apt install build-essential python3 curl pkg-config libglib2.0-dev`
-    - Fedora: `dnf install @c-development @development-tools python3 curl pkgconf-pkg-config glib2-devel`
-2. Run `pnpm buildLibVesktop`
-3. From now on, building Vesktop will use your own build
+TransCore retains Vesktop's [GPL-3.0-or-later license](LICENSE). Bundled engine licenses and notices are under [vendor](vendor).

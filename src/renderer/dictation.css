@@ -1,0 +1,68 @@
+.transcord-dictation {
+    position: fixed;
+    z-index: 1000;
+    inset-block-start: 56px;
+    inset-inline-end: 16px;
+    width: min(420px, calc(100vw - 32px));
+    box-sizing: border-box;
+    padding: 8px 12px;
+    border: 1px solid #536562;
+    border-radius: 8px;
+    background: #142321;
+    color: #effbf6;
+    font:
+        500 14px/1.45 "Segoe UI",
+        sans-serif;
+    box-shadow: 0 4px 14px #0004;
+}
+.transcord-dictation:has(p[hidden]) {
+    width: max-content;
+    max-width: min(420px, calc(100vw - 32px));
+}
+.transcord-dictation[hidden],
+.transcord-dictation [hidden] {
+    display: none;
+}
+.transcord-dictation-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow-wrap: anywhere;
+}
+.transcord-dictation-status span {
+    min-inline-size: 0;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.transcord-dictation button {
+    flex: none;
+    min-height: 32px;
+    padding: 0 10px;
+    border: 1px solid #829d92;
+    border-radius: 5px;
+    color: #effbf6;
+    background: #2b4840;
+    cursor: pointer;
+}
+.transcord-dictation button:focus-visible {
+    outline: 2px solid #abf0d1;
+    outline-offset: 2px;
+}
+.transcord-dictation p {
+    position: relative;
+    margin: 8px 0 0;
+    block-size: 4lh;
+    white-space: pre-wrap;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+
+.transcord-live-measure {
+    position: absolute !important;
+    visibility: hidden;
+    pointer-events: none;
+    margin: 0 !important;
+    inset: 0 auto auto 0;
+}

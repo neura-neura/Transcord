@@ -6,6 +6,7 @@
 
 import "./themedSplash";
 import "./ipcCommands";
+import "./dictation";
 import "./appBadge";
 import "./fixes";
 import "./rpc";
@@ -15,9 +16,13 @@ export * as Components from "./components";
 
 import { VesktopSettingsIcon } from "@vencord/types/components";
 
+import DictationSettings from "./components/settings/DictationSettings";
+import HexSettingsPanel from "./components/settings/HexSettingsPanel";
+import ModelLibraryPanel from "./components/settings/ModelLibraryPanel";
 import SettingsUi from "./components/settings/Settings";
 import { VesktopLogger } from "./logger";
 import { Settings } from "./settings";
+import { ui } from "./transcordLocale";
 export { Settings };
 
 VesktopLogger.log("read if cute :3");
@@ -33,3 +38,40 @@ SettingsPlugin.customEntries.push({
     Component: SettingsUi,
     Icon: VesktopSettingsIcon
 });
+
+SettingsPlugin.customEntries.push({
+    key: "transcord-dictation",
+    get title() {
+        return ui("Dictado y traducción");
+    },
+    get panelTitle() {
+        return ui("Dictado y traducción");
+    },
+    Component: DictationSettings,
+    Icon: VesktopSettingsIcon
+});
+
+SettingsPlugin.customEntries.push(
+    {
+        key: "transcord-models",
+        get title() {
+            return ui("Biblioteca de modelos");
+        },
+        get panelTitle() {
+            return ui("Biblioteca de modelos");
+        },
+        Component: ModelLibraryPanel,
+        Icon: VesktopSettingsIcon
+    },
+    {
+        key: "transcord-hex",
+        get title() {
+            return ui("Hex avanzado");
+        },
+        get panelTitle() {
+            return ui("Hex avanzado");
+        },
+        Component: HexSettingsPanel,
+        Icon: VesktopSettingsIcon
+    }
+);

@@ -5,12 +5,13 @@
  */
 
 import { ipcRenderer } from "electron/renderer";
+import type { IpcDictation } from "shared/dictation";
 import type { IpcEvents, UpdaterIpcEvents } from "shared/IpcEvents";
 
-export function invoke<T = any>(event: IpcEvents | UpdaterIpcEvents, ...args: any[]) {
+export function invoke<T = any>(event: IpcEvents | UpdaterIpcEvents | IpcDictation, ...args: any[]) {
     return ipcRenderer.invoke(event, ...args) as Promise<T>;
 }
 
-export function sendSync<T = any>(event: IpcEvents | UpdaterIpcEvents, ...args: any[]) {
+export function sendSync<T = any>(event: IpcEvents | UpdaterIpcEvents | IpcDictation, ...args: any[]) {
     return ipcRenderer.sendSync(event, ...args) as T;
 }

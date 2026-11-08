@@ -27,6 +27,7 @@ import type { SettingsStore } from "shared/utils/SettingsStore";
 import { createAboutWindow } from "./about";
 import { CommandLine } from "./cli";
 import { BrowserUserAgent, DEFAULT_HEIGHT, DEFAULT_WIDTH, MessageBoxChoice, MIN_HEIGHT, MIN_WIDTH } from "./constants";
+import { initDictation } from "./dictation";
 import { AppEvents } from "./events";
 import { sendRendererCommand } from "./ipcCommands";
 import { darwinURL } from "./main";
@@ -532,6 +533,7 @@ export async function createWindows() {
         runVencordMain();
 
         mainWin = createMainWindow();
+        initDictation(mainWin);
     } catch (err) {
         console.error("Failed to start Vesktop:", err);
         return showStartupError(err);

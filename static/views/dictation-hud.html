@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'" />
+    <title>Transcord</title>
+    <link rel="stylesheet" href="dictation-hud.css" />
+    <body>
+        <main>
+            <div class="conversation" id="incoming" hidden>
+                <div class="conversation-header">
+                    <span id="incoming-label">Message received</span><b id="author"></b>
+                </div>
+                <p id="incoming-text" dir="auto"></p>
+            </div>
+            <section class="console">
+                <header>
+                    <div class="orb" aria-hidden="true">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.6"
+                            stroke-linecap="round"
+                        >
+                            <rect x="9" y="3" width="6" height="11" rx="3" />
+                            <path d="M6 10v1a6 6 0 0 0 12 0v-1m-6 7v4m-3 0h6" />
+                        </svg>
+                    </div>
+                    <div class="identity">
+                        <small id="target" dir="auto">Transcord</small><strong id="phase" role="status">Ready</strong>
+                    </div>
+                    <button type="button" id="stop">Stop</button>
+                </header>
+                <p class="transcript" id="transcript" dir="auto" hidden></p>
+                <div class="message-budget" id="budget" hidden></div>
+            </section>
+        </main>
+    </body>
+</html>

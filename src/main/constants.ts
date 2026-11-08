@@ -5,21 +5,15 @@
  */
 
 import { existsSync, mkdirSync, rmSync } from "fs";
-import { dirname, join } from "path";
+import { join } from "path";
 
 import { app } from "electron";
 
 import { CommandLine } from "./cli";
 
-const vesktopDir = dirname(process.execPath);
+export const PORTABLE = false;
 
-export const PORTABLE =
-    process.platform === "win32" &&
-    !process.execPath.toLowerCase().endsWith("electron.exe") &&
-    !existsSync(join(vesktopDir, "Uninstall Vesktop.exe"));
-
-export const DATA_DIR =
-    process.env.VENCORD_USER_DATA_DIR || (PORTABLE ? join(vesktopDir, "Data") : join(app.getPath("userData")));
+export const DATA_DIR = process.env.TRANSCORD_DATA_DIR || join(app.getPath("appData"), "Transcord");
 
 // Written by "Reset Vesktop". Our data is deleted here on the next start, before anything uses it
 export const RESET_MARKER_FILE = join(DATA_DIR, ".reset-pending");
@@ -35,6 +29,7 @@ if (existsSync(RESET_MARKER_FILE)) {
 }
 
 mkdirSync(DATA_DIR, { recursive: true });
+app.setPath("userData", DATA_DIR);
 
 export const SESSION_DATA_DIR = join(DATA_DIR, "sessionData");
 app.setPath("sessionData", SESSION_DATA_DIR);

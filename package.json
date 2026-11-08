@@ -1,8 +1,9 @@
 {
-    "name": "vesktop",
-    "version": "1.6.9",
+    "name": "transcord",
+    "productName": "Transcord",
+    "version": "1.6.9-transcord.17",
     "private": true,
-    "description": "Vesktop is a custom Discord desktop app",
+    "description": "Transcord: Vesktop con dictado local de Hex",
     "keywords": [],
     "homepage": "https://vencord.dev/",
     "license": "GPL-3.0-or-later",
@@ -57,9 +58,9 @@
         "pnpm": ">=11"
     },
     "build": {
-        "appId": "dev.vencord.vesktop",
-        "productName": "Vesktop",
-        "executableName": "vesktop",
+        "appId": "local.transcord.desktop",
+        "productName": "Transcord",
+        "executableName": "transcord",
         "files": [
             "!*",
             "!node_modules",
@@ -68,12 +69,6 @@
             "package.json",
             "LICENSE"
         ],
-        "protocols": {
-            "name": "Discord",
-            "schemes": [
-                "discord"
-            ]
-        },
         "beforePack": "scripts/build/beforePack.mjs",
         "afterPack": "scripts/build/afterPack.mjs",
         "toolsets": {
@@ -168,8 +163,11 @@
             ]
         },
         "nsis": {
+            "oneClick": false,
+            "artifactName": "Transcord-Setup-${version}-${arch}.${ext}",
             "include": "build/installer.nsh",
-            "oneClick": false
+            "guid": "0535050d-bd78-46ea-acf0-ad00add68199",
+            "allowToChangeInstallationDirectory": true
         },
         "win": {
             "icon": "build/icon.ico",
@@ -177,21 +175,21 @@
                 {
                     "target": "nsis",
                     "arch": [
-                        "x64",
-                        "arm64"
-                    ]
-                },
-                {
-                    "target": "zip",
-                    "arch": [
-                        "x64",
-                        "arm64"
+                        "x64"
                     ]
                 }
-            ]
-        },
-        "publish": {
-            "provider": "github"
+            ],
+            "extraResources": [
+                {
+                    "from": "vendor/hex",
+                    "to": "hex"
+                },
+                {
+                    "from": "vendor/ollama",
+                    "to": "ollama"
+                }
+            ],
+            "signExecutable": false
         },
         "rpm": {
             "fpm": [
@@ -207,6 +205,9 @@
             "onlyLoadAppFromAsar": true,
             "loadBrowserProcessSpecificV8Snapshot": false,
             "grantFileProtocolExtraPrivileges": false
+        },
+        "directories": {
+            "output": "dist/transcord"
         }
     }
 }

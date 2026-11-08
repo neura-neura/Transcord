@@ -7,6 +7,16 @@
 import type { Node } from "@vencord/venmic";
 import { ipcRenderer } from "electron/renderer";
 import type { IpcMessage, IpcResponse } from "main/ipcCommands";
+import {
+    DictationPreferences,
+    DictationStatus,
+    HexModel,
+    HexSetting,
+    HudUpdate,
+    IpcDictation,
+    ModelLibrary,
+    ModelOperation
+} from "shared/dictation";
 import type { Settings } from "shared/settings";
 
 import { IpcEvents } from "../shared/IpcEvents";
@@ -107,6 +117,38 @@ export const VesktopNative = {
         ready: () => invoke<void>(IpcEvents.RPC_READY),
         send: (id: string, json: string) => invoke<void>(IpcEvents.RPC_SEND, id, json),
         close: (id: string, code: number, message?: string) => invoke<void>(IpcEvents.RPC_CLOSE, id, code, message)
+    },
+    dictation: {
+        preferences: () => invoke<{ preferences: DictationPreferences; shortcut: string }>(IpcDictation.GetPreferences),
+        hud: (data: HudUpdate) => invoke<void>(IpcDictation.HudUpdate, data),
+        speechPreview: (wav: Uint8Array) => invoke<string>(IpcDictation.SpeechPreview, wav),
+        library: () => invoke<ModelLibrary>(IpcDictation.Library),
+        modelAction: (operation: ModelOperation) =>
+            invoke<{ result?: string; error?: string }>(IpcDictation.ModelAction, operation),
+        cancelModelAction: () => invoke<void>(IpcDictation.ModelCancel),
+        onModelProgress: (cb: (text: string) => void) => {
+            const listener = (_: Electron.IpcRendererEvent, text: string) => cb(text);
+            ipcRenderer.on(IpcDictation.ModelProgress, listener);
+            return () => {
+                ipcRenderer.removeListener(IpcDictation.ModelProgress, listener);
+            };
+        },
+        hexSettings: () => invoke<HexSetting[]>(IpcDictation.HexSettings),
+        saveHexSetting: (key: string, value: unknown) => invoke<string>(IpcDictation.HexSettingSave, key, value),
+        models: () =>
+            invoke<{
+                hex: HexModel[] | null;
+                ollama: string[] | null;
+                detected: string[];
+                issues?: ModelLibrary["issues"];
+            }>(IpcDictation.Models),
+        savePreferences: (options: DictationPreferences) => invoke<string>(IpcDictation.SavePreferences, options),
+        status: (status: DictationStatus) => invoke<void>(IpcDictation.Status, status),
+        hex: (wav?: Uint8Array, intermediate = false) => invoke<string>(IpcDictation.Hex, wav, intermediate),
+        translate: (text: string) => invoke<string>(IpcDictation.Translate, text),
+        onTranslationProgress: (cb: (text: string) => void) => {
+            ipcRenderer.on(IpcDictation.TranslationProgress, (_, partial: string) => cb(partial));
+        }
     },
     commands: {
         onCommand(cb: (message: IpcMessage) => void) {

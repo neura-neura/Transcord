@@ -6,6 +6,7 @@
 
 import { ipcMain, IpcMainEvent, IpcMainInvokeEvent, WebFrameMain } from "electron";
 import { DISCORD_HOSTNAMES } from "main/constants";
+import type { IpcDictation } from "shared/dictation";
 import { IpcEvents, UpdaterIpcEvents } from "shared/IpcEvents";
 
 export function validateSender(frame: WebFrameMain | null, event: string) {
@@ -32,7 +33,10 @@ export function handleSync(event: IpcEvents | UpdaterIpcEvents, cb: (e: IpcMainE
     });
 }
 
-export function handle(event: IpcEvents | UpdaterIpcEvents, cb: (e: IpcMainInvokeEvent, ...args: any[]) => any) {
+export function handle(
+    event: IpcEvents | UpdaterIpcEvents | IpcDictation,
+    cb: (e: IpcMainInvokeEvent, ...args: any[]) => any
+) {
     ipcMain.handle(event, (e, ...args) => {
         validateSender(e.senderFrame, event);
         return cb(e, ...args);
